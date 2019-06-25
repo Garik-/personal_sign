@@ -1,0 +1,43 @@
+<html>
+    <body>
+        <button disabled id="click-me">Sign</button>
+        <script src="https://wzrd.in/standalone/buffer"></script>
+        <script>
+            var script = document.createElement('script')
+            script.src = 'https://unpkg.com/3box/dist/3box.min.js'
+
+            const sign = (fromAddress, text, ethereum) => {
+                const msg = '0x' + buffer.Buffer.from(text, 'utf8').toString('hex')
+                const params = [msg, fromAddress]
+                const method = 'personal_sign'
+
+                return new Promise((resolve, reject) => {
+                    ethereum.sendAsync({ jsonrpc: '2.0', id: 0, method, params, fromAddress },
+                    function (err, result) {
+                        if (err) reject(err)
+                        if (result.error) reject(result.error)
+                        const out = {
+                            msg: text,
+                            sig: result.result
+                        }
+                        resolve(out)
+                    })
+                })
+            }
+
+            script.onload = function () {
+                const button = document.getElementById("click-me")
+                button.disabled = false
+                button.addEventListener('click', async event => {
+                    const { web3, ethereum } = window
+                    var message = "Some string"
+                    var accounts = await ethereum.enable()
+                    const consent = await sign(accounts[0], message, ethereum)
+                    console.log({ consent })
+                })
+            }
+
+            document.body.appendChild(script)
+        </script>
+    </body>
+</html>

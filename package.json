@@ -1,0 +1,16 @@
+{
+  "name": "personal_sign",
+  "version": "1.0.0",
+  "description": "Ethereum personal sign with metamask",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Gar|k <garik.djan@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "ethereumjs-util": "^6.1.0",
+    "express": "^4.17.1"
+  }
+}
